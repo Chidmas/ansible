@@ -1,6 +1,8 @@
 - name: Update apt-get repo and cache
   hosts: all
   become: yes
+  vars_files:
+    - vault.yml
   tasks:
     - name: Update apt-get repository and cache
       apt:
