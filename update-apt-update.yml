@@ -2,7 +2,7 @@
   hosts: all
   become: yes
   vars_files:
-    - vault.yml
+    - /home/semaphore/vault.yml
   tasks:
     - name: Update apt-get repository and cache
       apt:
