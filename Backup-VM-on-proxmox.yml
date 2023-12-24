@@ -1,0 +1,22 @@
+---
+- name: Backup VM on Proxmox
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Start VM backup
+      uri:
+         url: "https://{{ proxmox_ip }}:8006/api2/json/nodes/{{ node_name }}/vzdump"
+      method: POST
+        body: 
+          vmid: "100"
+          storage: "{{ backup_storage }}" # Update this with your actual storage location
+          mode: "snapshot" # Choose mode: stop/suspend/snapshot
+    body_format: json
+        headers:
+          Authorization: "PVEAPIToken=root@pam!tokenid={token-id},{token-secret}"
+      validate_certs: no # Set to yes in production for security
+      register: backup_response
+
+    - name: Print backup response
+      debug:
+        var: backup_response
