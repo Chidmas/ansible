@@ -7,7 +7,7 @@
 
   tasks:
     - name: Send Wake-on-LAN Packet to the backup server
-      command: wakeonlan "{{ vault_target_mac_address }}"
+      command: /usr/bin/wakeonlan "{{ vault_target_mac_address }}"
       delegate_to: localhost
 
     - name: Wait for 3 minutes before checking the backup server
