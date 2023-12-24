@@ -1,0 +1,23 @@
+---
+- name: Wake up the backup server and check its status
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - /home/semaphore/vault.yml
+
+  tasks:
+    - name: Send Wake-on-LAN Packet to the backup server
+      command: wakeonlan "{{ vault_target_mac_address }}"
+      delegate_to: localhost
+
+    - name: Wait for 3 minutes before checking the backup server
+      pause:
+        minutes: 3
+
+    - name: Check if the backup server is online
+      wait_for:
+        host: "{{ backupserverip }}"
+        port: 22  # Replace with a specific service port if necessary.
+        state: started
+        timeout: 300  # Adjust the timeout as per your server's boot time.
+
